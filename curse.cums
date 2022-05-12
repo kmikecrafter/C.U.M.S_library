@@ -1,0 +1,126 @@
+macro putc
+    1 swap 1 swap 1 4 syscall
+    
+    mem 100000 + 10 mPush
+    1 1 mem 100000 + 1 4 syscall 
+macroEnd
+macro endl
+    mem 100000 + 10 mPush
+    1 1 mem 100000 + 1 4 syscall 
+macroEnd
+macro strlen
+    mem 0 mPush
+    0 while dup 0 == :
+        over 
+        mem mLoad 
+        swap over
+        + mLoad
+        
+        if 0 !=
+            : 1 +
+        else
+            : swap 1 + swap 
+        end
+
+        mem swap mPush
+    end drop
+    drop
+    mem mLoad
+macroEnd
+macro puts
+    1 1 2 overm dup strlen 4 syscall endl
+    drop
+macroEnd
+macro put
+    swap mem + swap mPush
+macroEnd
+macro take
+    mem + mLoad
+macroEnd
+macro print
+    iDebug 10 cDebug
+macroEnd
+macro stop
+    60 syscall
+macroEnd
+macro =+
+    dup take 1 + put 
+macroEnd
+macro =-
+    dup take 1 - put
+macroEnd
+macro MemPlus
+    dup 2 overm swap take + put drop
+macroEnd
+macro MemMinus
+    dup 2 overm swap take - put drop
+macroEnd
+
+macro sqrt
+    10 swap put
+    11 1 put
+    while 11 take dup * 10 take < :
+        11 take 1 + 11 swap put
+    end
+    11 take
+macroEnd
+
+macro fac
+    dup 10 swap put
+    while dup 1 > :
+        dup 1 -
+    end
+    while dup 10 take < :
+        * swap
+    end
+    *
+macroEnd
+
+macro pow
+    dup 10 swap put
+    swap 11 swap put
+    while 11 take 1 > :
+        10 take *
+        11 take 1 - 11 swap put
+    end
+macroEnd
+
+macro curt
+    10 swap put
+    11 1 put
+    while 11 take dup dup * * 10 take < :
+        11 take 1 + 11 swap put
+    end
+    11 take
+macroEnd
+
+macro log
+    12 swap put
+    dup 13 swap put
+    14 1 put
+    while dup 14 take degree 12 take < :
+        14 take 1 + 14 swap put
+    end
+    drop 14 take
+macroEnd
+
+macro abs
+    if dup -1 < :
+        -1 *
+    end
+macroEnd
+
+macro copyabs
+    10 swap put
+    if 10 take -1 < :
+        -1 *
+    end
+macroEnd
+
+macro pi
+    1 1 "3.1415..." 9 4 syscall 10 cDebug
+macroEnd
+
+macro e
+    1 1 "2.7182..." 9 4 syscall 10 cDebug
+macroEnd

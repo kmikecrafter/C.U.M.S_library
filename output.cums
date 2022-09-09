@@ -1,0 +1,78 @@
+macro putc
+    1 swap 1 swap 1 4 syscall
+    
+    mem 100000 + 10 mPush
+    1 1 mem 100000 + 1 4 syscall 
+macroEnd
+macro endl
+    mem 100000 + 10 mPush
+    1 1 mem 100000 + 1 4 syscall 
+macroEnd
+macro strlen
+    mem 0 mPush
+    0 while dup 0 == :
+        over 
+        mem mLoad 
+        swap over
+        + mLoad
+        
+        if 0 !=
+            : 1 +
+        else
+            : swap 1 + swap 
+        end
+
+        mem swap mPush
+    end drop
+    drop
+    mem mLoad
+macroEnd
+macro puts
+    1 1 2 overm dup strlen 4 syscall
+    drop
+macroEnd
+macro put
+    swap mem + swap mPush
+macroEnd
+macro take
+    mem + mLoad
+macroEnd
+macro print
+    take iDebug 10 cDebug
+macroEnd
+macro stop
+    60 syscall
+macroEnd
+macro =+
+    dup take 1 + put 
+macroEnd
+macro =-
+    dup take 1 - put
+macroEnd
+macro MemPlus
+    dup 2 overm swap take + put drop
+macroEnd
+macro MemMinus
+    dup 2 overm swap take - put drop
+macroEnd
+
+macro concat
+    100 swap put
+    101 swap put
+    102 103 put
+    while 100 take 0 > :
+        100 =-
+        if 101 take 1 == :
+            101 2 put
+            iDebug
+        else :
+            if dup strlen 1 == :
+                putc
+            else :
+                puts
+            end
+            101 1 put
+        end
+    end
+macroEnd
+" nothing " 123456 " pi " 314 1 4 concat
